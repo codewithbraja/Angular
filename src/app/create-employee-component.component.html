@@ -1,0 +1,162 @@
+<form [formGroup]="employeeForm" (ngSubmit)="OnSubmit()" class="form-horizontal">
+  {{formvalidity}}
+ <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h2>Create Employee</h2>
+    </div>
+    <div class="panel-body">
+       <!-- G1 starts-->
+      <div class="form-group" >
+        <label class="col-sm-2 label label-default" for="fullName">
+        Full Name
+        </label>
+        <div class="col-sm-8">
+        <input id="fullName" formControlName="fullName"  type="=text" class="form-control" 
+        [ngClass]="{'is-invalid':formErrors.fullName }" (blur)="LogValidationErrors()"> 
+        <!-- [ngClass]="{'is-invalid': this.employeeForm.get('fullName').errors && (this.employeeForm.get('fullName').touched ||  this.employeeForm.get('fullName').dirty ) }"> -->
+        <span class="invalid-feedback" *ngIf=formErrors.fullName>
+        {{formErrors.fullName}}
+        </span>
+        </div>
+      </div>
+      <!-- G1 end-->
+
+      <!--Contact preferences end-->
+      <div class="form-group">
+        <label class="col-md-2 control-label">Contact Preferences</label>
+        <div class="col-md-8">
+        <label class="col-md-2 radio-inline">
+        <input type="radio" value="email" formControlName="contactpreference" >Email
+        </label>
+  
+        <label class="col-md-2 radio-inline">
+        <input type="radio" value="phone" formControlName="contactpreference">Phone
+        </label>
+        </div>
+        <!-- G3.2 ends-->
+      <div style="color: #dc3545;">
+            <span *ngIf=formErrors.proficency>
+            {{formErrors.proficency}}
+            </span>
+      </div>
+    </div>
+      <!--Contact preferences end-->
+<div formGroupName="emailGroup">
+      <!-- Email starts-->
+      <div class="form-group" >
+        <label class="col-sm-2 label-default" for="email">
+        email  
+        </label>
+        <div class="col-sm-8">
+        <input id="email"formControlName="email" type="=text" class=form-control  
+        [ngClass]="{'is-invalid':formErrors.email }" (blur)="LogValidationErrors()">
+        <span class="invalid-feedback" *ngIf=formErrors.email>
+        {{formErrors.email}}
+        </span>
+        </div>
+      </div>
+      <!-- Email ends-->
+
+      <!-- confirmEmail starts-->
+      <div class="form-group" >
+        <label class="col-sm-2 label-default" for="email">
+        Confirm Email  
+        </label>
+        <div class="col-sm-8">
+        <input id="confirmEmail"formControlName="confirmEmail" type="=text" class=form-control  
+        [ngClass]="{'is-invalid':formErrors.confirmEmail ||formErrors.emailGroup}" (blur)="LogValidationErrors()">
+        <span class="invalid-feedback" *ngIf="formErrors.confirmEmail || formErrors.emailGroup">
+          {{ formErrors.confirmEmail ? formErrors.confirmEmail:formErrors.emailGroup}}
+        </span>
+        </div>
+      </div>
+      <!-- confirmEmail ends-->
+</div>
+      <!-- Phone Starts-->
+
+      <div class="form-group" >
+        <label class="col-sm-2 label-default" for="phone">
+        Phone  
+        </label>
+        <div class="col-sm-8">
+        <input id="phone"formControlName="phone" type="=text" class=form-control  
+        [ngClass]="{'is-invalid':formErrors.phone }" (blur)="LogValidationErrors()">
+        <span class="invalid-feedback" *ngIf=formErrors.phone>
+        {{formErrors.phone}}
+        </span>
+        </div>
+      </div>
+
+      <!-- Phone ends-->
+
+      <!-- G3 starts-->
+<div style="background-color:wheat;">
+        <div  class="form-group">
+          <div class="col-md-offset-2 col-md-4">
+              <button type="button" class="btn btn-primary" (click)="addSkillButtonClick()">Add Skill</button>
+          </div>
+        </div>
+    <div formArrayName="skills" *ngFor="let skill of employeeForm.get('skills').controls;let i=index">
+       <!-- Variable Binding required pair of square paranthesis-->
+    <div [formGroupName]="i">
+      <!-- G3.1 starts-->
+      <div class="form-group">
+      <label class="col-sm-2 control-label" for="skillName">
+      Skill Name
+      </label>
+      <div class="form-group col-sm-4">
+            <div class="form-inline"> 
+            <input type="=text" id="skillName" placeholder="Skill Name" formControlName="skillName"   class="form-control col-md-4"
+            [ngClass]="{'is-invalid':formErrors.skillName}" (blur)="LogValidationErrors()">
+            &nbsp;
+            <input type="=text" placeholder="Experience In Years" formControlName="experienceInYears"   class="form-control "
+            [ngClass]="{'is-invalid':formErrors.experienceInYears }" (blur)="LogValidationErrors()">
+            </div>
+            <div style="color: #dc3545;"> 
+            <span *ngIf=formErrors.skillName>
+            {{formErrors.skillName}}
+            </span> 
+            <span  *ngIf=formErrors.experienceInYears>
+            {{formErrors.experienceInYears}}
+            </span>
+            </div>
+      </div>
+    <!-- G3.2 starts-->
+    
+      <div class="form-group">
+      <label class="col-md-2 control-label">Proficency</label>
+      <div class="col-md-8">
+      <label class="col-md-2 radio-inline">
+      <input type="radio" value="beginner" formControlName="proficency" (blur)="LogValidationErrors()">Beginner
+      </label>
+
+      <label class="col-md-2 radio-inline">
+      <input type="radio" value="intermediate" formControlName="proficency" (blur)="LogValidationErrors()">Intermediate
+      </label>
+
+      <label class="col-md-2 radio-inline">
+      <input type="radio" value="expert" formControlName="proficency" (blur)="LogValidationErrors()">Expert
+      </label>
+      </div>
+    
+      <!-- G3.2 ends-->
+        <div style="color: #dc3545;">
+          <span *ngIf=formErrors.proficency>
+          {{formErrors.proficency}}
+          </span>
+        </div>
+      </div>
+    </div>
+    <!-- G3.1 ends-->
+  </div>
+  </div>
+</div>
+  <!-- G3 ends--> 
+    </div>   
+    <div class="panel-footer">
+        <button class="btn btn-primary" type="submit" [disabled]="employeeForm.invalid">Submit</button>
+    </div>
+  
+</div>    
+</form>
+<router-outlet></router-outlet>
